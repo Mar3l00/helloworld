@@ -33,10 +33,10 @@ class _LocalizacaoPageState extends State<LocalizacaoPage> {
   Future<void> buscarLocalizacao() async{
     bool servicoAtivo = await Geolocator.isLocationServiceEnabled();
 
-    // if(!servicoAtivo) {
-    //   await Geolocator.openLocationSettings();
-    //   return;
-    // }
+    if(!servicoAtivo) {
+       await Geolocator.openLocationSettings();
+       return;
+    }
 
     LocationPermission permissao = await Geolocator.checkPermission();
 
