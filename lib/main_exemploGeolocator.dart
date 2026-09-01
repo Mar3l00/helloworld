@@ -12,12 +12,11 @@ class MeuApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Minha Localização',
+      title: 'Minha localização',
       home: const LocalizacaoPage(),
     );
   }
 }
-
 
 class LocalizacaoPage extends StatefulWidget {
   const LocalizacaoPage({super.key});
@@ -27,83 +26,67 @@ class LocalizacaoPage extends StatefulWidget {
 }
 
 class _LocalizacaoPageState extends State<LocalizacaoPage> {
-  double latitude = 0;
-  double longitude = 0;
+  double latitude = 0.0;
+  double longitude = 0.0;
 
-  Future<void> buscarLocalizacao() async{
+  Future<void> buscarLocalizacao() async {
     bool servicoAtivo = await Geolocator.isLocationServiceEnabled();
-
-    if(!servicoAtivo) {
-       await Geolocator.openLocationSettings();
-       return;
+    if (!servicoAtivo) {
+      await Geolocator.openLocationSettings();
+      return;
     }
-
     LocationPermission permissao = await Geolocator.checkPermission();
-
     if (permissao == LocationPermission.denied) {
       permissao = await Geolocator.requestPermission();
     }
-
-    if (permissao == LocationPermission.denied ||
-      permissao == LocationPermission.deniedForever) {
-      return;
+    if (permissao == LocationPermission.denied) {
+      permissao == LocationPermission.deniedForever;
     }
-
     Position posicao = await Geolocator.getCurrentPosition();
-
     setState(() {
       latitude = posicao.latitude;
       longitude = posicao.longitude;
     });
-
     print('Latitude: $latitude');
     print('Longitude: $longitude');
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Minha Localizacao')),
-
+      appBar: AppBar(
+        title: const Text('Minha localização')),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(20),
-
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-
             children: [
               const Icon(Icons.location_on, size: 80, color: Colors.red),
-
               const SizedBox(height: 20),
-
-              const Text (
-                'Localização atual',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)
-                ),
-
-                const SizedBox(height: 30),
-
-                Text('Latitude: $latitude', style: const TextStyle(fontSize:18)),
-
-                const SizedBox(height: 10),
-
-                Text(
-                  'Longitude: $longitude',
-                  style: const TextStyle(fontSize: 18),
-                ),
-
-                const SizedBox(height: 30),
-
-                ElevatedButton(
-                  onPressed: buscarLocalizacao,
-                  child: const Text('Atualizar Localização')
-                ), 
-              ],
-            ),
-          ),
-        ),
-      );
-    }
+              const Text(
+                "Localização atual:",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                "Latitude: $latitude\nLongitude: $longitude",
+                style: const TextStyle(fontSize: 10),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                "Longitude: $longitude\nLongitude: $longitude",
+                style: const TextStyle(fontSize: 10),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: buscarLocalizacao,
+                child: const Text("Atualizar localização"),
+              ),
+            ],
+          )
+        )
+      )
+    );
   }
+}
