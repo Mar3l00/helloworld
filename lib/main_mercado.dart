@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'pages_lista/carrinho_page_mercado.dart';
+import 'camera/pages_lista/carrinho_page_mercado.dart';
 
 class Produto {
   const Produto({
